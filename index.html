@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Special Valentine 💖</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+
+        body{
+        margin:0;
+        font-family:'Comic Sans MS', cursive;
+        text-align:center;
+        background: linear-gradient(270deg,#ff0080,#ff8c00,#40e0d0,#ff69b4,#8a2be2,#00ffcc,#ff0080);
+        background-size:1400% 1400%;
+        animation:bgMove 15s ease infinite;
+        overflow:hidden;
+        }
+
+        @keyframes bgMove{
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+        }
+
+        .screen{
+        margin-top:60px;
+        padding:20px;
+        }
+
+        h1{
+        font-size:40px;
+        color:white;
+        text-shadow:0 0 10px #fff,0 0 20px #ff4da6,0 0 30px #ff4da6;
+        }
+
+        p{
+        font-size:22px;
+        color:white;
+        text-shadow:0 0 10px black;
+        }
+
+        button{
+        padding:15px 25px;
+        font-size:20px;
+        border:none;
+        border-radius:30px;
+        cursor:pointer;
+        margin:10px;
+        transition:0.3s;
+        box-shadow:0 0 15px rgba(255,255,255,0.6);
+        }
+
+        button:hover{
+        transform:scale(1.15);
+        }
+
+        #yes{
+        background: linear-gradient(45deg,#ff006e,#ffbe0b);
+        color:white;
+        }
+
+        #no{
+        background: linear-gradient(45deg,#555,#999);
+        color:white;
+        position:absolute;
+        }
+
+        input{
+        padding:12px;
+        font-size:18px;
+        border-radius:20px;
+        border:none;
+        box-shadow:0 0 10px pink;
+        }
+
+        #errorMsg{
+        color:yellow;
+        font-weight:bold;
+        font-size:20px;
+        }
+
+        #loading{
+        font-size:28px;
+        color:white;
+        text-shadow:0 0 10px black;
+        }
+
+        #timer{
+        color:#fff;
+        font-size:24px;
+        text-shadow:0 0 10px red;
+        }
+
+        .heartFloat{
+        position:fixed;
+        font-size:30px;
+        animation:floatUp 4s linear forwards;
+        }
+
+        @keyframes floatUp{
+        0%{
+        transform:translateY(0);
+        opacity:1;
+        }
+        100%{
+        transform:translateY(-100vh);
+        opacity:0;
+        }
+        }
+
+        #overlay{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:black;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        z-index:999;
+        color:white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- sounds -->
+<audio id="drumroll" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_c8630b1cfd.mp3?filename=drum-roll-please-5696.mp3">
+</audio>
+
+<audio id="successSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=success-fanfare-trumpets-6185.mp3">
+</audio>
+
+<!-- name screen -->
+<div class="screen" id="nameScreen">
+
+    <h1>Identity Verification Required 😌💻</h1>
+
+    <p>Enter your name to unlock something special 💝</p>
+
+    <input id="nameInput" placeholder="Your name">
+
+    <p id="errorMsg"></p>
+
+    <button onclick="startLoading()">Unlock My Heart 🔓💘</button>
+
+</div>
+
+<!-- loading -->
+<div class="screen" id="loadingScreen" style="display:none;">
+
+    <h1 id="loading">Scanning cuteness level… 😍</h1>
+
+    <p>Consulting heart database 💖</p>
+
+</div>
+
+<!-- main -->
+<div class="screen" id="mainScreen" style="display:none;">
+
+    <h1 id="helloText"></h1>
+
+    <p>Error 404: Someone better than you not found 😌💖</p>
+
+    <p>My heart auto-selected you 💘</p>
+
+    <div id="timer"></div>
+
+    <button id="yes" onclick="playDrumroll()">Accept Destiny 💖✨</button>
+
+    <button id="no" onmouseover="runAway()">Reject (not recommended) 🙄</button>
+
+</div>
+
+<script>
+
+    let heartInterval=null;
+
+    function startLoading(){
+
+    let name=document.getElementById("nameInput").value.trim().toUpperCase();
+
+    if(name!=="ANANDHA RAJ S"){
+
+    document.getElementById("errorMsg").innerText=
+    "Access denied ❌ This heart belongs only to ANANDHA RAJ S 😌💖";
+
+    return;
+
+    }
+
+    document.getElementById("nameScreen").style.display="none";
+    document.getElementById("loadingScreen").style.display="block";
+
+    let text=[
+    "Identity confirmed 😍",
+    "Handsome level: 100% 🔥",
+    "Compatibility check: Perfect match 💖",
+    "Final result: I like you 😌",
+    "Unlocking special access 💘"
+    ];
+
+    let i=0;
+
+    let interval=setInterval(()=>{
+
+    document.getElementById("loading").innerText=text[i];
+
+    i++;
+
+    if(i>=text.length){
+
+    clearInterval(interval);
+    showMain();
+
+    }
+
+    },1300);
+
+    }
+
+    function showMain(){
+
+    document.getElementById("loadingScreen").style.display="none";
+    document.getElementById("mainScreen").style.display="block";
+
+    document.getElementById("helloText").innerText=
+    "Hello ANANDHA RAJ S 😍💖✨";
+
+    startTimer();
+
+    }
+
+    function startTimer(){
+
+    let seconds=15;
+
+    let interval=setInterval(()=>{
+
+    document.getElementById("timer").innerText=
+    "This offer expires in "+seconds+" seconds ⏳";
+
+    seconds--;
+
+    if(seconds<0){
+
+    clearInterval(interval);
+
+    document.getElementById("timer").innerText=
+    "You didn’t choose me. Destiny did 😌💖";
+
+    }
+
+    },1000);
+
+    }
+
+    function runAway(){
+
+    let btn=document.getElementById("no");
+
+    btn.style.left=Math.random()*window.innerWidth*0.7+"px";
+    btn.style.top=Math.random()*window.innerHeight*0.7+"px";
+
+    }
+
+    function playDrumroll(){
+
+    let drum=document.getElementById("drumroll");
+
+    drum.currentTime=0;
+    drum.play().catch(()=>{});
+
+    let overlay=document.createElement("div");
+
+    overlay.id="overlay";
+
+    overlay.innerHTML=`
+    <h1>Wait for it... 😌🥁</h1>
+    <p>Preparing your surprise 💖</p>
+    `;
+
+    document.body.appendChild(overlay);
+
+    setTimeout(()=>{
+
+    overlay.remove();
+    accept();
+
+    },3000);
+
+    }
+
+    function accept(){
+
+    // stop main screen
+    document.getElementById("mainScreen").style.display="none";
+
+    // play sound
+    let sound=document.getElementById("successSound");
+
+    sound.currentTime=0;
+    sound.play().catch(()=>{});
+
+    // confetti
+    confetti({
+    particleCount:200,
+    spread:120,
+    origin:{y:0.6}
+    });
+
+    // show final content
+    let final=document.createElement("div");
+
+    final.innerHTML=`
+
+    <h1>Mission Successful 💖😍🎉</h1>
+
+    <p>You just made me the happiest person alive 🥰</p>
+
+    <p>This wasn’t a question… it was destiny 😌💘</p>
+
+    <p>My heart is now permanently yours 💞</p>
+
+    <div style="font-size:40px;">
+    💖 💕 💗 💓 💞 💘 💝 ❤️ 🩷 😍
+    </div>
+
+    `;
+
+    document.body.appendChild(final);
+
+    // start heart explosion
+    startHeartExplosion();
+
+    }
+
+    function startHeartExplosion(){
+
+    if(heartInterval) return;
+
+    heartInterval=setInterval(()=>{
+
+    let heart=document.createElement("div");
+
+    heart.className="heartFloat";
+
+    heart.innerHTML=["💖","💕","💗","💓","💞","💘","💝","❤️","🩷"][Math.floor(Math.random()*9)];
+
+    heart.style.left=Math.random()*100+"%";
+    heart.style.bottom="0px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+
+    heart.remove();
+
+    },4000);
+
+    },300);
+
+    }
+
+</script>
+
+</body>
+</html>
